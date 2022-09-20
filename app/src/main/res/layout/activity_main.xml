@@ -6,6 +6,12 @@
     android:orientation="vertical"
     tools:context=".ui.MainActivity">
 
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_message" />
+
     <EditText
         android:id="@+id/myeditext"
         android:layout_width="wrap_content"
@@ -13,17 +19,29 @@
         android:text="@string/editmessage"
         android:hint="@string/hinttext" />
 
-    <TextView
-        android:id="@+id/textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_message" />
-
     <Button
         android:id="@+id/mybutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
         android:text="@string/button_message" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/checkbox_message" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/switch_message" />
+
+    <RadioButton
+        android:id="@+id/radioButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/radiobutton_message" />
+
 
 </LinearLayout>
