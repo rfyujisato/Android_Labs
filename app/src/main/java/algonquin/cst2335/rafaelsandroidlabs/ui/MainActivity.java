@@ -2,6 +2,7 @@ package algonquin.cst2335.rafaelsandroidlabs.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewbinding.ViewBinding;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,9 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MainViewModel model;
     private ActivityMainBinding variableBinding;
-    Context context = getApplicationContext();
     public String compoundBtn;
-    int duration = Toast.LENGTH_SHORT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
         variableBinding = ActivityMainBinding.inflate(getLayoutInflater()); //load premade variables from viewbinding
         setContentView(variableBinding.getRoot());
 
-/*      TextView mytext = variableBinding.textview;
+/*      Expanded version of lambda functions
+        TextView mytext = variableBinding.textView;
         Button btn = variableBinding.mybutton;
         EditText myedit = variableBinding.myeditext;
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Observer to change textView when editText is changed
         model.editString.observe(this, s -> {
-            variableBinding.textview.setText("Your edit text has " + s);
+            variableBinding.textView.setText("Your edit text has " + s);
         });
 
         //Listener for CheckBox
@@ -73,7 +73,22 @@ public class MainActivity extends AppCompatActivity {
             variableBinding.switch1.setChecked(selected);
             variableBinding.radioButton.setChecked(selected);
 
-            Toast toast = Toast.makeText(context, compoundBtn, duration);
+            Toast toast = Toast.makeText(
+                    getApplicationContext(), "You clicked on the " + compoundBtn +
+                            " and it is now: " + model.isSelected.getValue(), Toast.LENGTH_SHORT);
+            toast.show();
+        });
+
+        //Listener for imageView
+        variableBinding.imageView.setOnClickListener( (iv) -> {
+            variableBinding.textView.setText("Your imageView is Algonquin College Logo");
+        });
+
+        //Listener for imageButton that trigger a toast message
+        variableBinding.imageButton.setOnClickListener( (ib) -> {
+            Toast toast = Toast.makeText(
+                    getApplicationContext(), "The width = " + variableBinding.imageButton.getWidth() +
+                            " and height = " + variableBinding.imageButton.getHeight(), Toast.LENGTH_SHORT);
             toast.show();
         });
     }
