@@ -15,7 +15,17 @@ public class MainActivity extends AppCompatActivity {
 
     private MainViewModel model;
     private ActivityMainBinding variableBinding;
-    public String compoundBtn;
+    private String compoundBtn;
+
+    // Getter for compoundBtn
+    public String getCompoundBtn() {
+        return compoundBtn;
+    }
+
+    // Setter for compoundBtn
+    public void setCompoundBtn(String compoundBtn) {
+        this.compoundBtn = compoundBtn;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,29 +62,29 @@ public class MainActivity extends AppCompatActivity {
         //Listener for CheckBox
         variableBinding.checkBox.setOnCheckedChangeListener((cb,isChecked) -> {
             model.isSelected.postValue(isChecked);
-            compoundBtn = "CheckBox";
+            setCompoundBtn("CheckBox");
         });
 
         //Listener for Switch
         variableBinding.switch1.setOnCheckedChangeListener((sw,isChecked) -> {
             model.isSelected.postValue(isChecked);
-            compoundBtn = "Switch";
+            setCompoundBtn("Switch");
         });
 
         //Listener for Radiobutton
         variableBinding.radioButton.setOnCheckedChangeListener((rb,isChecked) -> {
             model.isSelected.postValue(isChecked);
-            compoundBtn = "RadioButton";
+            setCompoundBtn("RadioButton");
         });
 
         //Observer to change all compoundButtons when one of then is changed
         model.isSelected.observe(this, selected -> {
-            variableBinding.checkBox.setChecked(selected);
-            variableBinding.switch1.setChecked(selected);
-            variableBinding.radioButton.setChecked(selected);
+//            variableBinding.checkBox.setChecked(selected);
+//            variableBinding.switch1.setChecked(selected);
+//            variableBinding.radioButton.setChecked(selected);
 
             Toast toast = Toast.makeText(
-                    getApplicationContext(), "You clicked on the " + compoundBtn +
+                    getApplicationContext(), "You clicked on the " + getCompoundBtn() +
                             " and it is now: " + model.isSelected.getValue(), Toast.LENGTH_SHORT);
             toast.show();
         });
