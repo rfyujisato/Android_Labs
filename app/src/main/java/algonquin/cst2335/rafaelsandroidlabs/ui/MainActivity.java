@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
 
     private MainViewModel model;
     private ActivityMainBinding variableBinding;
+
+/*  Customized toast
     private String compoundBtn;
 
     // Getter for compoundBtn
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     public void setCompoundBtn(String compoundBtn) {
         this.compoundBtn = compoundBtn;
     }
+ */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         variableBinding = ActivityMainBinding.inflate(getLayoutInflater()); //load premade variables from viewbinding
         setContentView(variableBinding.getRoot());
 
-/*      Expanded version of lambda functions
+/*      Old version of lambda functions
         TextView mytext = variableBinding.textView;
         Button btn = variableBinding.mybutton;
         EditText myedit = variableBinding.myeditext;
@@ -62,30 +65,36 @@ public class MainActivity extends AppCompatActivity {
         //Listener for CheckBox
         variableBinding.checkBox.setOnCheckedChangeListener((cb,isChecked) -> {
             model.isSelected.postValue(isChecked);
-            setCompoundBtn("CheckBox");
+//            setCompoundBtn("CheckBox");
         });
 
         //Listener for Switch
         variableBinding.switch1.setOnCheckedChangeListener((sw,isChecked) -> {
             model.isSelected.postValue(isChecked);
-            setCompoundBtn("Switch");
+//            setCompoundBtn("Switch");
         });
 
         //Listener for Radiobutton
         variableBinding.radioButton.setOnCheckedChangeListener((rb,isChecked) -> {
             model.isSelected.postValue(isChecked);
-            setCompoundBtn("RadioButton");
+//            setCompoundBtn("RadioButton");
         });
 
         //Observer to change all compoundButtons when one of then is changed
         model.isSelected.observe(this, selected -> {
-//            variableBinding.checkBox.setChecked(selected);
-//            variableBinding.switch1.setChecked(selected);
-//            variableBinding.radioButton.setChecked(selected);
+            variableBinding.checkBox.setChecked(selected);
+            variableBinding.switch1.setChecked(selected);
+            variableBinding.radioButton.setChecked(selected);
 
+/*
+            Customized toast
             Toast toast = Toast.makeText(
                     getApplicationContext(), "You clicked on the " + getCompoundBtn() +
                             " and it is now: " + model.isSelected.getValue(), Toast.LENGTH_SHORT);
+            toast.show();
+ */
+            Toast toast = Toast.makeText(
+                    getApplicationContext(), "The value is now: " + model.isSelected.getValue(), Toast.LENGTH_SHORT);
             toast.show();
         });
 
