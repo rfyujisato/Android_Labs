@@ -10,8 +10,7 @@ import algonquin.cst2335.rafaelsandroidlabs.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static String TAG = "MainActivity";
-    private ActivityMainBinding variableBinding;
+    ActivityMainBinding variableBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,44 +19,44 @@ public class MainActivity extends AppCompatActivity {
         variableBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(variableBinding.getRoot());
 
-        variableBinding.login.setOnClickListener( clk->
+        variableBinding.login.setOnClickListener(click ->
         {
             Intent nextPage = new Intent( MainActivity.this, SecondActivity.class);
+            nextPage.putExtra("EmailAddress",variableBinding.emailInput.getText().toString());
             startActivity(nextPage);
         });
 
-        setContentView(R.layout.activity_main);
-        Log.w(TAG, "In onCreate() - Loading Widgets");
+        Log.w("MainActivity", "In onCreate() - Loading Widgets");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.w( TAG, "In onStart() - The application is now visible on screen" );
+        Log.w( "MainActivity", "In onStart() - The application is now visible on screen" );
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.w( TAG, "In onResume() - The application is now responding to user input" );
+        Log.w( "MainActivity", "In onResume() - The application is now responding to user input" );
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.w( TAG, "In onPause() - The application no longer responds to user input" );
+        Log.w( "MainActivity", "In onPause() - The application no longer responds to user input" );
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.w( TAG, "In onStop() - The application is no longer visible" );
+        Log.w( "MainActivity", "In onStop() - The application is no longer visible" );
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.w( TAG, "In onDestroy() - Any memory used by the application is freed" );
+        Log.w( "MainActivity", "In onDestroy() - Any memory used by the application is freed" );
     }
 
 }
