@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="algonquin.cst2335.rafaelsandroidlabs">
 
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />.
 
     <application
         android:allowBackup="true"
