@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.w( TAG, "In onCreate() - Loading Widgets" );
-    }
 
     @Override
     protected void onStart() {
@@ -46,7 +44,5 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         Log.w( TAG, "In onDestroy() - Any memory used by the application is freed" );
     }
-
-    loginButton.setOnClickListener( clk-> { } );
 
 }
