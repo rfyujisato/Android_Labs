@@ -18,6 +18,20 @@ import algonquin.cst2335.rafaelsandroidlabs.databinding.ActivitySecondBinding;
 public class SecondActivity extends AppCompatActivity {
 
     ActivitySecondBinding variableBinding;
+    ActivityResultLauncher<Intent> cameraResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        Bitmap thumbnail = data.getParcelableExtra("data");
+                        variableBinding.profileImage.setImageBitmap(thumbnail);
+                    }
+                }
+            }
+    );
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +54,7 @@ public class SecondActivity extends AppCompatActivity {
         variableBinding.pictureButton.setOnClickListener(click ->{
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-            ActivityResultLauncher<Intent> cameraResult = registerForActivityResult(
-                    new ActivityResultContracts.StartActivityForResult(),
-                    new ActivityResultCallback<ActivityResult>() {
-                        @Override
-                        public void onActivityResult(ActivityResult result) {
-                            if (result.getResultCode() == Activity.RESULT_OK) {
-                                Intent data = result.getData();
-                                Bitmap thumbnail = data.getParcelableExtra("data");
-                                variableBinding.profileImage.setImageBitmap(thumbnail);
-                            }
-                        }
-                    }
-            );
+
             cameraResult.launch(cameraIntent);
         });
 
