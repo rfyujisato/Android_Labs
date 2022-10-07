@@ -32,12 +32,12 @@ public class SecondActivity extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
-                        Bitmap mBitmap = data.getParcelableExtra("data");
-//                        variableBinding.profileImage.setImageBitmap(thumbnail);
+                        Bitmap thumbnail = data.getParcelableExtra("data");
+                        variableBinding.profileImage.setImageBitmap(thumbnail);
                         //
                         FileOutputStream fOut = null;
                         try { fOut = openFileOutput("Picture.png", Context.MODE_PRIVATE);
-                            mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                            thumbnail.compress(Bitmap.CompressFormat.PNG, 100, fOut);
                             fOut.flush();
                             fOut.close();
                         }
@@ -73,9 +73,9 @@ public class SecondActivity extends AppCompatActivity {
             cameraResult.launch(cameraIntent);
         });
 //
-        File myImage = new File("Picture.png");
+        File myImage = new File(getFilesDir(), "Picture.png");
         if(myImage.exists()){
-            Bitmap image = BitmapFactory.decodeFile("Picture.png");
+            Bitmap image = BitmapFactory.decodeFile("/data/data/algonquin.cst2335.rafaelsandroidlabs/files/Picture.png");
             variableBinding.profileImage.setImageBitmap(image);
         }
 //
