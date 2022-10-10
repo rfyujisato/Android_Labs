@@ -9,11 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -60,6 +62,10 @@ public class SecondActivity extends AppCompatActivity {
         String emailAddress = fromPrevious.getStringExtra("EmailAddress");
         variableBinding.textView.setText("Welcome " + emailAddress);
 
+        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        String phoneNumber = prefs.getString("PhoneNumber","");
+        variableBinding.phoneNumber.setText(phoneNumber);
+
         variableBinding.phoneButton.setOnClickListener(click ->
         {
             Intent call = new Intent(Intent.ACTION_DIAL);
@@ -71,12 +77,23 @@ public class SecondActivity extends AppCompatActivity {
             Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             cameraResult.launch(cameraIntent);
         });
-//
         File myImage = new File(getFilesDir(), "Picture.png");
         if(myImage.exists()){
             Bitmap image = BitmapFactory.decodeFile("/data/data/algonquin.cst2335.rafaelsandroidlabs/files/Picture.png");
             variableBinding.profileImage.setImageBitmap(image);
         }
-//
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+
+        String phoneInput = variableBinding.phoneNumber.getText().toString();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("PhoneNumber",phoneInput);
+        editor.apply();
+
+        Log.w( "SecondActivity", "In onPause() - The application no longer responds to user input" );
     }
 }
