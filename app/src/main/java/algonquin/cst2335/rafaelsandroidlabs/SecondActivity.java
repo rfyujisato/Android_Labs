@@ -34,7 +34,7 @@ public class SecondActivity extends AppCompatActivity {
                         Intent data = result.getData();
                         Bitmap thumbnail = data.getParcelableExtra("data");
                         variableBinding.profileImage.setImageBitmap(thumbnail);
-                        //
+
                         FileOutputStream fOut = null;
                         try { fOut = openFileOutput("Picture.png", Context.MODE_PRIVATE);
                             thumbnail.compress(Bitmap.CompressFormat.PNG, 100, fOut);
@@ -44,7 +44,6 @@ public class SecondActivity extends AppCompatActivity {
                         catch (IOException e)
                         { e.printStackTrace();
                         }
-                        //
                     }
                 }
             }
