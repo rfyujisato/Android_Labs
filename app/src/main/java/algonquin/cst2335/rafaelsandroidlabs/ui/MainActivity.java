@@ -1,4 +1,4 @@
-package algonquin.cst2335.rafaelsandroidlabs;
+package algonquin.cst2335.rafaelsandroidlabs.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 

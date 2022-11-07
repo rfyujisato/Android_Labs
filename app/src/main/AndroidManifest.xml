@@ -13,16 +13,16 @@
         android:theme="@style/Theme.RafaelsAndroidLabs"
         tools:targetApi="31">
         <activity
-            android:name=".ChatRoom"
+            android:name=".ui.ChatRoom"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" /> //activity that gets launched when the application is started
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

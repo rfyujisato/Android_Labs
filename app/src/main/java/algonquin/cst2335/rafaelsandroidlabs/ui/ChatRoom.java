@@ -1,4 +1,4 @@
-package algonquin.cst2335.rafaelsandroidlabs;
+package algonquin.cst2335.rafaelsandroidlabs.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,10 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
+import algonquin.cst2335.rafaelsandroidlabs.R;
 import algonquin.cst2335.rafaelsandroidlabs.databinding.ActivityChatRoomBinding;
 
 public class ChatRoom extends AppCompatActivity {
@@ -50,6 +49,11 @@ public class ChatRoom extends AppCompatActivity {
             }
 
             @Override
+            public int getItemViewType(int position) {
+                return 0; //0 represents send, text on the left
+            }
+
+            @Override
             public void onBindViewHolder(@NonNull MyRowHolder holder, int position) { //This initializes a ViewHolder to go at the row specified by the position parameter.
                 String thisRow = messages.get(position);
 
@@ -60,11 +64,6 @@ public class ChatRoom extends AppCompatActivity {
             @Override
             public int getItemCount() { //This function just returns an int specifying how many items to draw.
                 return messages.size();
-            }
-
-            @Override
-            getItemViewType(int position){
-                return 0;
             }
         });
     }
@@ -77,6 +76,4 @@ public class ChatRoom extends AppCompatActivity {
             time = itemView.findViewById(R.id.time);
         }
     }
-
-
 }
