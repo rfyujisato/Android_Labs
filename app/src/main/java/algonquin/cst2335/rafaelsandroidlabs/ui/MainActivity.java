@@ -20,15 +20,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         binding.button.setOnClickListener(click ->
-                //do this when you click the button:
         {
             Intent nextPage = new Intent(MainActivity.this, ChatRoom.class);
-            startActivity(nextPage); //this will call onActivityResult above when it finishes()
+            startActivity(nextPage);
         });
     }
 
 
-    //activity is visible, but not responding to touch
+    // Activity is visible, but not responding to touch
     @Override
     protected void onStart() {
         super.onStart();
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         Log.e("MainActivity", "In onStart()");
     }
 
-    //activity is visible, and responding to touch
+    // Activity is visible, and responding to touch
     @Override
     protected void onResume() {
         super.onResume();
@@ -44,21 +43,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //activity is visible, and not responding to touch
+    // Activity is visible, and not responding to touch
     @Override
     protected void onPause() {
         super.onPause();
         Log.e("MainActivity", "In onPause()");
     }
 
-    //no longer visible
+    // No longer visible
     @Override
     protected void onStop() {
         super.onStop();
         Log.e("MainActivity", "In onStop()");
     }
 
-    //the garbage collector is clearing the memory
+    // Clear memory
     @Override
     protected void onDestroy() {
         super.onDestroy();

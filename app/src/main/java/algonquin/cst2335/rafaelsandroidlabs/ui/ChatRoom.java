@@ -8,16 +8,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import algonquin.cst2335.rafaelsandroidlabs.R;
 import algonquin.cst2335.rafaelsandroidlabs.databinding.ActivityChatRoomBinding;
 
 public class ChatRoom extends AppCompatActivity {
 
-    ArrayList<String> messages = new ArrayList<>();
+    ArrayList<ChatMessage> messages = new ArrayList<>();
 
     ActivityChatRoomBinding binding;
 
@@ -31,8 +34,21 @@ public class ChatRoom extends AppCompatActivity {
 
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
 
-        binding.button2.setOnClickListener( click ->{
-            messages.add(binding.textInput.getText().toString());
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
+        String currentDateandTime = sdf.format(new Date());
+
+        binding.send.setOnClickListener( click ->{
+            ChatMessage chatMessage = new ChatMessage(binding.textInput.getText().toString(),
+                    currentDateandTime, true);
+
+            //clear the previous text:
+            adapter.notifyItemChanged(messages.size()-1); //which position has changed
+            binding.textInput.setText(""); //remove what was there
+        });
+
+        binding.receive.setOnClickListener( click ->{
+            ChatMessage chatMessage = new ChatMessage(binding.textInput.getText().toString(),
+                    currentDateandTime, false);
 
             //clear the previous text:
             adapter.notifyItemChanged(messages.size()-1); //which position has changed
@@ -44,21 +60,29 @@ public class ChatRoom extends AppCompatActivity {
             @Override
             public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) { //This function creates a ViewHolder object which represents a single row in the list
                 View root;
-                root = getLayoutInflater().inflate(R.layout.sent_message, parent, false);
-                return new MyRowHolder(root);
+                if(viewType == 0) {
+                    root = getLayoutInflater().inflate(R.layout.sent_message, parent, false);
+                    return new MyRowHolder(root);
+                } else {
+                    root = getLayoutInflater().inflate(R.layout.receive_message, parent, false);
+                    return new MyRowHolder(root);
+                }
             }
 
             @Override
             public int getItemViewType(int position) {
-                return 0; //0 represents send, text on the left
+                if(messages.get(position).getIsSentButton() == true) {
+                    return 0;
+                } else {
+                    return 1;
+                }
             }
 
             @Override
             public void onBindViewHolder(@NonNull MyRowHolder holder, int position) { //This initializes a ViewHolder to go at the row specified by the position parameter.
-                String thisRow = messages.get(position);
-
-                holder.message.setText(thisRow);
-                holder.time.setText("");
+                ChatMessage thisRow = messages.get(position);
+                holder.message.setText(thisRow.getMessage());
+                holder.time.setText(thisRow.getTimeSent());
             }
 
             @Override
@@ -67,6 +91,7 @@ public class ChatRoom extends AppCompatActivity {
             }
         });
     }
+
     class MyRowHolder extends RecyclerView.ViewHolder {
         TextView message;
         TextView time;
@@ -74,6 +99,30 @@ public class ChatRoom extends AppCompatActivity {
             super(itemView);
             message = itemView.findViewById(R.id.message);
             time = itemView.findViewById(R.id.time);
+        }
+    }
+
+    class ChatMessage{
+        String message;
+        String timeSent;
+        boolean isSentButton;
+
+        public ChatMessage(String m, String t, boolean sent) {
+            message = m;
+            timeSent = t;
+            isSentButton = sent;
+        }
+
+        public String getMessage(){
+            return message;
+        }
+
+        public String getTimeSent(){
+            return timeSent;
+        }
+
+        public boolean getIsSentButton(){
+            return isSentButton;
         }
     }
 }
