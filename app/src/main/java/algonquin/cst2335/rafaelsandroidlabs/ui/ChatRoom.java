@@ -2,6 +2,7 @@ package algonquin.cst2335.rafaelsandroidlabs.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,11 +16,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import algonquin.cst2335.rafaelsandroidlabs.R;
+import algonquin.cst2335.rafaelsandroidlabs.data.ChatRoomViewModel;
 import algonquin.cst2335.rafaelsandroidlabs.databinding.ActivityChatRoomBinding;
 
 public class ChatRoom extends AppCompatActivity {
 
-    ArrayList<ChatMessage> messages = new ArrayList<>();
+    ChatRoomViewModel chatModel ;
+    ArrayList<ChatMessage> messages;
 
     ActivityChatRoomBinding binding;
 
@@ -33,6 +36,14 @@ public class ChatRoom extends AppCompatActivity {
 
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
 
+        chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
+        messages = chatModel.messages.getValue();
+
+        if(messages == null)
+        {
+            chatModel.messages.postValue(messages = new ArrayList<>());
+        }
+
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd-MMM-yyyy hh-mm-ss a");
         String currentDateandTime = sdf.format(new Date());
 
@@ -40,7 +51,7 @@ public class ChatRoom extends AppCompatActivity {
             ChatMessage chatMessage = new ChatMessage(binding.textInput.getText().toString(),
                     currentDateandTime, true);
 
-            messages.add(chatMessage);
+            chatModel.messages.getValue().add(chatMessage);
             //clear the previous text:
             adapter.notifyItemChanged(messages.size()-1); //which position has changed
             binding.textInput.setText(""); //remove what was there
@@ -50,7 +61,7 @@ public class ChatRoom extends AppCompatActivity {
             ChatMessage chatMessage = new ChatMessage(binding.textInput.getText().toString(),
                     currentDateandTime, false);
 
-            messages.add(chatMessage);
+            chatModel.messages.getValue().add(chatMessage);
             //clear the previous text:
             adapter.notifyItemChanged(messages.size()-1); //which position has changed
             binding.textInput.setText(""); //remove what was there
