@@ -103,7 +103,7 @@ public class ChatRoom extends AppCompatActivity {
         }
     }
 
-    class ChatMessage{
+    public class ChatMessage{
         String message;
         String timeSent;
         boolean isSentButton;
