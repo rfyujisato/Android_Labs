@@ -33,13 +33,14 @@ public class ChatRoom extends AppCompatActivity {
 
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd-MMM-yyyy hh-mm-ss a");
         String currentDateandTime = sdf.format(new Date());
 
         binding.send.setOnClickListener( click ->{
             ChatMessage chatMessage = new ChatMessage(binding.textInput.getText().toString(),
                     currentDateandTime, true);
 
+            messages.add(chatMessage);
             //clear the previous text:
             adapter.notifyItemChanged(messages.size()-1); //which position has changed
             binding.textInput.setText(""); //remove what was there
@@ -49,6 +50,7 @@ public class ChatRoom extends AppCompatActivity {
             ChatMessage chatMessage = new ChatMessage(binding.textInput.getText().toString(),
                     currentDateandTime, false);
 
+            messages.add(chatMessage);
             //clear the previous text:
             adapter.notifyItemChanged(messages.size()-1); //which position has changed
             binding.textInput.setText(""); //remove what was there
