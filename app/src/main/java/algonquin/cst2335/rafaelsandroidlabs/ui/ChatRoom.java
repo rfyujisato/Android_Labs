@@ -1,6 +1,7 @@
 package algonquin.cst2335.rafaelsandroidlabs.ui;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -138,6 +141,38 @@ public class ChatRoom extends AppCompatActivity {
         TextView time;
         public MyRowHolder(@NonNull View itemView) {
             super(itemView);
+
+            itemView.setOnClickListener( click ->{
+                int position = getAbsoluteAdapterPosition();
+                ChatMessage thisMessage = messages.get(position);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
+                builder.setMessage(thisMessage.message)
+
+                    .setTitle("Do you want to delete this message? ")
+
+                    .setNegativeButton("No", (dialog, cl) ->{ })
+                    .setPositiveButton(("Yes"), (dialog, cl) -> {
+                        Snackbar.make (message, "You deleted message #" + position, Snackbar.LENGTH_LONG)
+                                .setAction("Undo", click2 -> {
+                                    Executor thread = Executors.newSingleThreadExecutor();
+                                    thread.execute( () -> {
+                                        mDAO.insertMessage(thisMessage);
+                                    });
+                                    adapter.notifyItemInserted(position);
+                                    chatModel.messages.getValue().add(thisMessage);
+                                })
+                                .show();
+
+                    Executor thread = Executors.newSingleThreadExecutor();
+                    thread.execute( () -> {
+                        mDAO.deleteMessage(thisMessage);
+                    });
+                    adapter.notifyItemRemoved(position);
+                    chatModel.messages.getValue().remove(position);
+                })
+                    .create().show();
+            });
             message = itemView.findViewById(R.id.message);
             time = itemView.findViewById(R.id.time);
         }
