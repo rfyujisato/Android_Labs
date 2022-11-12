@@ -62,8 +62,11 @@ public class ChatRoom extends AppCompatActivity {
         String currentDateandTime = sdf.format(new Date());
 
         binding.send.setOnClickListener( click ->{
-            ChatMessage chatMessage = new ChatMessage(
-            );
+            ChatMessage chatMessage = new ChatMessage();
+            chatMessage.setMessage(binding.textInput.getText().toString());
+            chatMessage.setTimeSent(currentDateandTime);
+            chatMessage.setSentButton(true);
+
 
             chatModel.messages.getValue().add(chatMessage);
             //clear the previous text:
@@ -77,8 +80,10 @@ public class ChatRoom extends AppCompatActivity {
         });
 
         binding.receive.setOnClickListener( click ->{
-            ChatMessage chatMessage = new ChatMessage(
-            );
+            ChatMessage chatMessage = new ChatMessage();
+            chatMessage.setMessage(binding.textInput.getText().toString());
+            chatMessage.setTimeSent(currentDateandTime);
+            chatMessage.setSentButton(false);
 
             chatModel.messages.getValue().add(chatMessage);
             //clear the previous text:

@@ -20,21 +20,29 @@ public class ChatMessage {
     protected boolean isSentButton;
 
 
-    public ChatMessage(String m, String t, boolean sent) {
-            message = m;
-            timeSent = t;
-            isSentButton = sent;
-        }
+    public ChatMessage() { }
 
     public String getMessage(){
         return message;
+    }
+
+    public void setMessage(String message){
+        this.message = message;
     }
 
     public String getTimeSent(){
         return timeSent;
     }
 
+    public void setTimeSent(String timeSent) {
+        this.timeSent = timeSent;
+    }
+
     public boolean getIsSentButton(){
         return isSentButton;
+    }
+
+    public void setSentButton(boolean sentButton) {
+        isSentButton = sentButton;
     }
 }
