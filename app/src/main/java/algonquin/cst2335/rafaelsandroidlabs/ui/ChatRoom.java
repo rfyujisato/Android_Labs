@@ -15,6 +15,8 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import algonquin.cst2335.rafaelsandroidlabs.R;
 import algonquin.cst2335.rafaelsandroidlabs.data.ChatRoomViewModel;
@@ -47,32 +49,49 @@ public class ChatRoom extends AppCompatActivity {
         if(messages == null)
         {
             chatModel.messages.postValue(messages = new ArrayList<>());
+
+            Executor thread = Executors.newSingleThreadExecutor();
+            thread.execute(() ->
+            {
+                messages.addAll( mDAO.getAllMessages() ); //Get data from database
+                runOnUiThread( () ->  binding.recycleView.setAdapter(adapter)); //Load the RecyclerView
+            });
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd-MMM-yyyy hh-mm-ss a");
         String currentDateandTime = sdf.format(new Date());
 
         binding.send.setOnClickListener( click ->{
-            ChatMessage chatMessage = new ChatMessage(binding.textInput.getText().toString(),
-                    currentDateandTime, true);
+            ChatMessage chatMessage = new ChatMessage(
+            );
 
             chatModel.messages.getValue().add(chatMessage);
             //clear the previous text:
             adapter.notifyItemChanged(messages.size()-1); //which position has changed
             binding.textInput.setText(""); //remove what was there
+
+            Executor thread = Executors.newSingleThreadExecutor();
+            thread.execute( () -> {
+                mDAO.insertMessage(chatMessage);
+            });
         });
 
         binding.receive.setOnClickListener( click ->{
-            ChatMessage chatMessage = new ChatMessage(binding.textInput.getText().toString(),
-                    currentDateandTime, false);
+            ChatMessage chatMessage = new ChatMessage(
+            );
 
             chatModel.messages.getValue().add(chatMessage);
             //clear the previous text:
             adapter.notifyItemChanged(messages.size()-1); //which position has changed
             binding.textInput.setText(""); //remove what was there
+
+            Executor thread = Executors.newSingleThreadExecutor();
+            thread.execute( () -> {
+                mDAO.insertMessage(chatMessage);
+            });
         });
 
-        binding.recycleView.setAdapter(adapter = new RecyclerView.Adapter<MyRowHolder>() {
+        adapter = new RecyclerView.Adapter<MyRowHolder>() {
             @NonNull
             @Override
             public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) { //This function creates a ViewHolder object which represents a single row in the list
@@ -106,7 +125,7 @@ public class ChatRoom extends AppCompatActivity {
             public int getItemCount() { //This function just returns an int specifying how many items to draw.
                 return messages.size();
             }
-        });
+        };
     }
 
     class MyRowHolder extends RecyclerView.ViewHolder {
@@ -116,30 +135,6 @@ public class ChatRoom extends AppCompatActivity {
             super(itemView);
             message = itemView.findViewById(R.id.message);
             time = itemView.findViewById(R.id.time);
-        }
-    }
-
-    public class ChatMessage{
-        String message;
-        String timeSent;
-        boolean isSentButton;
-
-        public ChatMessage(String m, String t, boolean sent) {
-            message = m;
-            timeSent = t;
-            isSentButton = sent;
-        }
-
-        public String getMessage(){
-            return message;
-        }
-
-        public String getTimeSent(){
-            return timeSent;
-        }
-
-        public boolean getIsSentButton(){
-            return isSentButton;
         }
     }
 }

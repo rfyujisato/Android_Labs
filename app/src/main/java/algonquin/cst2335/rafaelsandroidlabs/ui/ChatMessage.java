@@ -19,6 +19,7 @@ public class ChatMessage {
     @ColumnInfo(name="isSentButton")
     protected boolean isSentButton;
 
+
     public ChatMessage(String m, String t, boolean sent) {
             message = m;
             timeSent = t;
