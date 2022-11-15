@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 public class ChatMessage {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name="id")
-    protected int id;
+    protected long id;
 
     @ColumnInfo(name="message")
     protected String message;
@@ -22,7 +22,7 @@ public class ChatMessage {
 
     public ChatMessage() { }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

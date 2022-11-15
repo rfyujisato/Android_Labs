@@ -182,7 +182,7 @@ public class ChatRoom extends AppCompatActivity {
                                 .setAction("Undo", click2 -> {
                                     Executor thread = Executors.newSingleThreadExecutor();
                                     thread.execute( () -> {
-                                        mDAO.insertMessage(thisMessage);
+                                        thisMessage.id =  mDAO.insertMessage(thisMessage);
                                     });
                                     adapter.notifyItemInserted(position);
                                     chatModel.messages.getValue().add(thisMessage);
