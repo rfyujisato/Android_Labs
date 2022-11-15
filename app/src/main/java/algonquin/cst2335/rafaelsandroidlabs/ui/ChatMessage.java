@@ -22,6 +22,10 @@ public class ChatMessage {
 
     public ChatMessage() { }
 
+    public int getId() {
+        return id;
+    }
+
     public String getMessage(){
         return message;
     }
