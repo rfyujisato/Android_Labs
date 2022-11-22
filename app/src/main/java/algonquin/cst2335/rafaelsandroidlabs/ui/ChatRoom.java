@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -35,6 +37,19 @@ public class ChatRoom extends AppCompatActivity {
     RecyclerView.Adapter<MyRowHolder> adapter;
     ChatMessageDAO mDAO;
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        getMenuInflater().inflate(R.menu.menu, menu); // inflates myMeanu.xml into menu
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -60,6 +75,10 @@ public class ChatRoom extends AppCompatActivity {
                 runOnUiThread( () ->  binding.recycleView.setAdapter(adapter)); //Load the RecyclerView
             });
         }
+
+        setSupportActionBar(binding.toolBar); // loads toolbar and calls onCreateOptionsMenu
+
+
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd-MMM-yyyy hh-mm-ss a");
         String currentDateandTime = sdf.format(new Date());

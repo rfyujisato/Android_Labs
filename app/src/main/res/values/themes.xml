@@ -12,5 +12,9 @@
 
         <!-- Text color. -->
         <item name="android:textColor">@color/my_text</item>
+
+        <!-- Not to use ActionBar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 </resources>
