@@ -39,6 +39,8 @@ public class ChatRoom extends AppCompatActivity {
     RecyclerView.Adapter<MyRowHolder> adapter;
     ChatMessageDAO mDAO;
 
+    int position;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -50,8 +52,8 @@ public class ChatRoom extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
+
             case R.id.item_1:
-                int position = getAbsoluteAdapterPosition();
                 ChatMessage thisMessage = messages.get(position);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
@@ -61,7 +63,7 @@ public class ChatRoom extends AppCompatActivity {
 
                     .setNegativeButton("No", (dialog, cl) ->{ })
                     .setPositiveButton(("Yes"), (dialog, cl) -> {
-                        Snackbar.make (message, "You deleted message #" + position, Snackbar.LENGTH_LONG)
+                        Snackbar.make (binding.send, "You deleted message #" + position, Snackbar.LENGTH_LONG)
                                 .setAction("Undo", click2 -> {
                                     Executor thread = Executors.newSingleThreadExecutor();
                                     thread.execute( () -> {
@@ -201,7 +203,7 @@ public class ChatRoom extends AppCompatActivity {
             super(itemView);
 
             itemView.setOnClickListener( click ->{
-                int position = getAbsoluteAdapterPosition();
+                position = getAbsoluteAdapterPosition();
                 ChatMessage thisMessage = messages.get(position);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
