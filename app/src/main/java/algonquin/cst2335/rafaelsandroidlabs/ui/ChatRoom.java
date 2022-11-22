@@ -47,7 +47,39 @@ public class ChatRoom extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.item_1:
+                /*
+                AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
+                builder.setMessage(thisMessage.message)
+
+                    .setTitle("Do you want to delete this message? ")
+
+                    .setNegativeButton("No", (dialog, cl) ->{ })
+                    .setPositiveButton(("Yes"), (dialog, cl) -> {
+                        Snackbar.make (message, "You deleted message #" + position, Snackbar.LENGTH_LONG)
+                                .setAction("Undo", click2 -> {
+                                    Executor thread = Executors.newSingleThreadExecutor();
+                                    thread.execute( () -> {
+                                        thisMessage.id =  mDAO.insertMessage(thisMessage);
+                                    });
+                                    adapter.notifyItemInserted(position);
+                                    chatModel.messages.getValue().add(thisMessage);
+                                })
+                                .show();
+
+                    Executor thread = Executors.newSingleThreadExecutor();
+                    thread.execute( () -> {
+                        mDAO.deleteMessage(thisMessage);
+                    });
+                    adapter.notifyItemRemoved(position);
+                    chatModel.messages.getValue().remove(position);
+                })
+                    .create().show();
+                */
+        }
+        return true;
     }
 
     protected void onCreate(Bundle savedInstanceState) {
