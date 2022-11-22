@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -38,9 +40,8 @@ public class ChatRoom extends AppCompatActivity {
     ChatMessageDAO mDAO;
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu, menu); // inflates myMeanu.xml into menu
         return true;
     }
@@ -50,6 +51,9 @@ public class ChatRoom extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case R.id.item_1:
+                int position = getAbsoluteAdapterPosition();
+                ChatMessage thisMessage = messages.get(position);
+
                 AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
                 builder.setMessage(thisMessage.message)
 
@@ -76,12 +80,17 @@ public class ChatRoom extends AppCompatActivity {
                     chatModel.messages.getValue().remove(position);
                 })
                     .create().show();
+                break;
             case R.id.item_2:
-
+                Toast toast = Toast.makeText(
+                        getApplicationContext(), "Version 1.0, created by Rafael Yuji Sato", Toast.LENGTH_LONG);
+                toast.show();
+                break;
         }
         return true;
     }
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -109,8 +118,6 @@ public class ChatRoom extends AppCompatActivity {
         }
 
         setSupportActionBar(binding.toolBar); // loads toolbar and calls onCreateOptionsMenu
-
-
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd-MMM-yyyy hh-mm-ss a");
         String currentDateandTime = sdf.format(new Date());
