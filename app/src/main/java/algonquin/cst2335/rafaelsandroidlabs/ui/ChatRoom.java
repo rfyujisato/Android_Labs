@@ -50,7 +50,6 @@ public class ChatRoom extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case R.id.item_1:
-                /*
                 AlertDialog.Builder builder = new AlertDialog.Builder( ChatRoom.this );
                 builder.setMessage(thisMessage.message)
 
@@ -77,7 +76,8 @@ public class ChatRoom extends AppCompatActivity {
                     chatModel.messages.getValue().remove(position);
                 })
                     .create().show();
-                */
+            case R.id.item_2:
+
         }
         return true;
     }
