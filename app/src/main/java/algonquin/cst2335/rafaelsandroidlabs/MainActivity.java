@@ -34,18 +34,14 @@ import java.net.URLEncoder;
 
 import algonquin.cst2335.rafaelsandroidlabs.databinding.ActivityMainBinding;
 
-/** This page validates the requirements of the inserted password after
- *  the click of the button, and it shows a toast message and the change
- *  the value of the Text View when the password does not meet the requirements.
+/**
  *  @author Rafael Yuji Sato
  *  @version 1.0
  */
 public class MainActivity extends AppCompatActivity {
 
-    /** This variable holds the field with the password entry*/
     private EditText et = null;
 
-    /** This variable holds the button on the bottom of the screen*/
     private Button btn = null;
 
     RequestQueue queue = null;
@@ -71,8 +67,10 @@ public class MainActivity extends AppCompatActivity {
             String stringURL = "";
 
             try {
+                //stringURL = "https://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(cityName, "UTF-8") +
+                //            "&appid=7e943c97096a9784391a981c4d878b22&units=metric";
                 stringURL = "https://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(cityName, "UTF-8") +
-                            "&appid=7e943c97096a9784391a981c4d878b22&units=metric";
+                        "&appid=83b0b5ef94b06a42cc6352dc8519d6a9&units=metric";
 
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, stringURL, null,
                         (response) -> {
@@ -132,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                                     binding.humidity.setVisibility(View.VISIBLE);
 
                                     binding.icon.setImageBitmap(image);
+                                    binding.humidity.setVisibility(View.VISIBLE);
 
                                     binding.description.setText(description);
                                     binding.description.setVisibility(View.VISIBLE);
@@ -147,7 +146,6 @@ public class MainActivity extends AppCompatActivity {
                             Log.e("Error", "error");
                 }); //error callback function
             queue.add(request);
-
             }
             catch (UnsupportedEncodingException e) {
             e.printStackTrace();
