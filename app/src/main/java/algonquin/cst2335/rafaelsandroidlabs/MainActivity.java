@@ -2,9 +2,13 @@ package algonquin.cst2335.rafaelsandroidlabs;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
@@ -45,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
 
     RequestQueue queue = null;
 
+    ImageRequest imgReq;
+    Bitmap image;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,38 +74,82 @@ public class MainActivity extends AppCompatActivity {
                 stringURL = "https://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(cityName, "UTF-8") +
                             "&appid=7e943c97096a9784391a981c4d878b22&units=metric";
 
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, stringURL, null,
-                    (response) -> {
-                        try {
-                            JSONObject coord = response.getJSONObject( "coord" );
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, stringURL, null,
+                        (response) -> {
+                            try {
+                                //JSONObject coord = response.getJSONObject( "coord" );
+                                //int vis = response.getInt("visibility");
+                                //String name = response.getString( "name" );
 
-                            JSONObject mainObject = response.getJSONObject("main");
-                            double current = mainObject.getDouble("temp");
-                            double min = mainObject.getDouble("temp_min");
-                            double max = mainObject.getDouble("temp_max");
-                            int humidity = mainObject.getInt("humidity");
+                                JSONObject mainObject = response.getJSONObject("main");
+                                double current = mainObject.getDouble("temp");
+                                double min = mainObject.getDouble("temp_min");
+                                double max = mainObject.getDouble("temp_max");
+                                int humidity = mainObject.getInt("humidity");
 
-                            int vis = response.getInt("visibility");
+                                JSONArray weather = response.getJSONArray("weather");
+                                JSONObject position0 = weather.getJSONObject(0);
+                                String description = position0.getString("description");
+                                String iconName = position0.getString("icon");
 
-                            String name = response.getString( "name" );
+                                String pathname = getFilesDir() + "/" + iconName + ".png";
+                                File file = new File(pathname);
+                                if(file.exists())
+                                {
+                                    image = BitmapFactory.decodeFile(pathname);
+                                }
+                                else {
+                                    imgReq = new ImageRequest("https://openweathermap.org/img/w/" + iconName + ".png", new Response.Listener<Bitmap>() {
+                                        @Override
+                                        public void onResponse(Bitmap bitmap) {
+                                            FileOutputStream fOut = null;
+                                            try {
+                                                fOut = openFileOutput( iconName + ".png", Context.MODE_PRIVATE);
+                                                image = bitmap;
+                                                image.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                                                fOut.flush();
+                                                fOut.close();
+                                            }
+                                            catch(Exception e){
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {   });
+                                }
 
-                            JSONArray weather = response.getJSONArray("weather");
-                            JSONObject position0 = weather.getJSONObject(0);
-                            String description = position0.getString("description");
-                            String iconName = position0.getString("icon");
+                                runOnUiThread( (  )  -> {
 
-                        } catch (JSONException e ) {
-                            e.printStackTrace();
-                        }
+                                    binding.temp.setText("The current temperature is " + current);
+                                    binding.temp.setVisibility(View.VISIBLE);
 
-                    }, //success callback function
-                    (error) -> {
-                        int i = 0;
-                        i++;
-                    }); //error callback function
+                                    binding.min.setText("The min temperature is " + min);
+                                    binding.min.setVisibility(View.VISIBLE);
+
+                                    binding.max.setText("The max temperature is " + max);
+                                    binding.max.setVisibility(View.VISIBLE);
+
+                                    binding.humidity.setText("The humidity is " + humidity);
+                                    binding.humidity.setVisibility(View.VISIBLE);
+
+                                    binding.icon.setImageBitmap(image);
+
+                                    binding.description.setText(description);
+                                    binding.description.setVisibility(View.VISIBLE);
+                                });
+
+                                queue.add(imgReq);
+
+                            } catch (JSONException e ) {
+                                e.printStackTrace();
+                            }
+                        }, //success callback function
+                        (error) -> {
+                            Log.e("Error", "error");
+                }); //error callback function
             queue.add(request);
 
-        } catch (UnsupportedEncodingException e) {
+            }
+            catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         });
