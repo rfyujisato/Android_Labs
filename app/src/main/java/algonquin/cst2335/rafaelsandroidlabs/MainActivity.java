@@ -113,30 +113,31 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
                                     }, 1024, 1024, ImageView.ScaleType.CENTER, null, (error) -> {   });
+                                    queue.add(imgReq);
                                 }
 
                                 runOnUiThread( (  )  -> {
 
-                                    binding.temp.setText("The current temperature is " + current);
+                                    binding.temp.setText("The current temperature is " + current + "°");
                                     binding.temp.setVisibility(View.VISIBLE);
 
-                                    binding.min.setText("The min temperature is " + min);
+                                    binding.min.setText("The min temperature is " + min + "°");
                                     binding.min.setVisibility(View.VISIBLE);
 
-                                    binding.max.setText("The max temperature is " + max);
+                                    binding.max.setText("The max temperature is " + max + "°");
                                     binding.max.setVisibility(View.VISIBLE);
 
-                                    binding.humidity.setText("The humidity is " + humidity);
+                                    binding.humidity.setText("The humidity is " + humidity + "%");
                                     binding.humidity.setVisibility(View.VISIBLE);
 
                                     binding.icon.setImageBitmap(image);
-                                    binding.humidity.setVisibility(View.VISIBLE);
+                                    binding.icon.setVisibility(View.VISIBLE);
 
                                     binding.description.setText(description);
                                     binding.description.setVisibility(View.VISIBLE);
                                 });
 
-                                queue.add(imgReq);
+
 
                             } catch (JSONException e ) {
                                 e.printStackTrace();
